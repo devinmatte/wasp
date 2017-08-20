@@ -1,0 +1,15 @@
+Source: wasp
+Section: utils
+Priority: optional
+Maintainer: Devin Matte, <devinmatte@gmail.com>
+Build-Depends: debhelper (>= 9), python3
+Standards-Version: 3.9.5
+X-Python3-Version: >= 3.2
+
+
+Package: wasp
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}
+Description: json file generator
+ Wasp Generates and creates basic resources for a modern web app.
+ Initializes a project with a manifest, package, and helps you tags versions effectively
