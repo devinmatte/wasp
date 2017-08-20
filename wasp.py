@@ -1,0 +1,84 @@
+import json
+import argparse
+import os
+import subprocess
+
+
+def privacy():
+    input_val = input("Privacy (private): ")
+    if input_val.lower() == "public" or input_val.lower() == "private":
+        return input_val.lower()
+    elif input_val == "":
+        return "private"
+    else:
+        print("Please enter \"public\" or \"private\"")
+        privacy()
+
+
+def manifest(details: dict):
+    manifest = {
+        "name": details['name'],
+        "short_name": details['short_name'],
+        "theme_color": details['theme_color'],
+        "background_color": details['background_color'],
+        "start_url": details['start_url'],
+        "display": details['display'],
+        "lang": details['lang'],
+        "orientation": details['orientation'],
+    }
+
+    with open('manifest.json', 'w') as fp:
+        json.dump(manifest, fp, sort_keys=True, indent=4, separators=(',', ': '))
+
+
+try:
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('task', metavar='task', type=str, help='A task to perform. Options : init, update, tag')
+    parser.add_argument('-m', '--manifest', action='store_true', help='Generate a manifest.json for your project')
+    parser.add_argument('-b', '--bower', action='store_true', help='Generate a bower.json for your project')
+
+    args = parser.parse_args()
+    print(args)
+
+    directory = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
+
+    process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
+    output = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]
+    print(output)
+
+    if args.task == 'init':
+        details = {}
+
+        print("Thanks for using Wasp!\n")
+
+        details['name'] = input("Project/Software Name (" + directory[0:45] + "): ")
+        if details['name'] == '':
+            details['name'] = directory[0:45]
+        details['description'] = input("Description: ")
+        details['keywords'] = input("Keywords: ")
+        details['authors'] = input("Authors: ")
+        details['licence'] = input("Licence: ")
+        details['website'] = input("Website: ")
+        details['privacy'] = privacy()
+
+        if args.manifest:
+            print("\nNow let's collect some Manifest Information\n")
+            details['short_name'] = input("Short Name (" + details['name'][0:12] + "): ")
+            if details['short_name'] == '':
+                details['short_name'] = details['name'][0:12]
+            details['theme_color'] = input("Theme Color: ")
+            details['background_color'] = input("Background Color: ")
+            details['display'] = input("Display (minimal-ui): ")
+            if details['display'] == '':
+                details['display'] = "minimal-ui"
+            details['start_url'] = input("Starting URL: ")
+            details['lang'] = input("Language: ")
+            details['orientation'] = input("Display Orientation: ")
+            
+            manifest(details)
+
+        with open('.wasp.json', 'w') as fp:
+            json.dump(details, fp, sort_keys=True, indent=4, separators=(',', ': '))
+
+except (KeyboardInterrupt, SystemExit):
+    exit(1)
