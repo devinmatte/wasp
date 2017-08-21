@@ -185,7 +185,7 @@ try:
 
     args = parser.parse_args()
 
-    directory = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
+    directory = os.path.basename(os.getcwd())
 
     if args.task == 'init':
         details = {}
