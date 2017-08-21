@@ -6,7 +6,7 @@ import os
 import subprocess
 
 
-class bcolors:
+class Colors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -32,7 +32,11 @@ class Manifest:
             "display": self.details['display'],
             "lang": self.details['lang'],
             "orientation": self.details['orientation'],
+            "dir": self.details['dir']
         }
+        if self.details['related_applications_check'].lower() == 'y':
+            manifest["related_applications"] = self.details['related_applications']
+            manifest["prefer_related_applications"] = self.details['prefer_related_applications']
 
         with open('manifest.json', 'w') as fp:
             json.dump(manifest, fp, sort_keys=True, indent=4, separators=(',', ': '))
@@ -42,14 +46,17 @@ class Manifest:
         self.theme_color()
         self.background_color()
         self.display()
-        self.start_url()
         self.lang()
+        self.dir()
+        self.start_url()
         self.orientation()
+        self.related_applications()
         return self
 
     def short_name(self):
         self.details['short_name'] = input(
-            "Short Name " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + self.details['name'][0:12] + bcolors.ENDC + "): ")
+            "Short Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + self.details['name'][
+                                                                          0:12] + Colors.ENDC + "): ")
         if self.details['short_name'] == '':
             self.details['short_name'] = self.details['name'][0:12]
 
@@ -72,8 +79,31 @@ class Manifest:
         # TODO: Validation
         self.details['lang'] = input("Language " + str(on(["M"], args)) + ": ")
 
+    def dir(self):
+        # TODO: Default
+        # TODO: Validation
+        self.details['dir'] = input(
+            "Text Direction " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "auto" + Colors.ENDC + "): ")
+
+    def related_applications(self):
+        # TODO: Validation
+        self.details['related_applications_check'] = input("Do you want to include related applications? " + str(
+            on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+        if self.details['related_applications_check'].lower() == 'y' \
+                or self.details['related_applications_check'].lower() == 'n':
+            prefer_related_applications = input("Prefer Related Applications " + str(
+                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            if prefer_related_applications.lower() == 'y':
+                self.details['prefer_related_applications'] = True
+            elif prefer_related_applications.lower() == 'n' or prefer_related_applications.lower() == '':
+                self.details['prefer_related_applications'] = False
+            self.details['related_applications'] = input("Related Applications " + str(on(["M"], args)) + ": ")
+            if self.details['related_applications'] == "":
+                self.details['related_applications'] = []
+
     def display(self):
-        self.details['display'] = input("Display " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + "minimal-ui" + bcolors.ENDC + "): ")
+        self.details['display'] = input(
+            "Display " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "minimal-ui" + Colors.ENDC + "): ")
         if self.details['display'].lower() == "minimal-ui" \
                 or self.details['display'].lower() == "browser" \
                 or self.details['display'].lower() == "standalone" \
@@ -86,7 +116,8 @@ class Manifest:
             self.display()
 
     def orientation(self):
-        self.details['orientation'] = input("Display Orientation " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + "any" + bcolors.ENDC + "): ")
+        self.details['orientation'] = input(
+            "Display Orientation " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "any" + Colors.ENDC + "): ")
         if self.details['orientation'].lower() == "any" \
                 or self.details['orientation'].lower() == "natural" \
                 or self.details['orientation'].lower() == "landscape" \
@@ -108,7 +139,7 @@ def on(options, args):
     return_options = "["
     for i, s in enumerate(options):
         if s == "M" and args.manifest:
-            return_options += bcolors.OKGREEN + "M" + bcolors.ENDC
+            return_options += Colors.OKGREEN + "M" + Colors.ENDC
         else:
             return_options += s
 
@@ -118,7 +149,7 @@ def on(options, args):
 
 
 def privacy():
-    input_val = input("Privacy " + str(on([], args)) + " (" + bcolors.OKBLUE + "private" + bcolors.ENDC + "): ")
+    input_val = input("Privacy " + str(on([], args)) + " (" + Colors.OKBLUE + "private" + Colors.ENDC + "): ")
     if input_val.lower() == "public" or input_val.lower() == "private":
         return input_val.lower()
     elif input_val == "":
@@ -132,7 +163,7 @@ def authors():
     process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
     author = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]
 
-    author_val = input("Authors " + str(on([], args)) + " (" + bcolors.OKBLUE + author + bcolors.ENDC + "): ")
+    author_val = input("Authors " + str(on([], args)) + " (" + Colors.OKBLUE + author + Colors.ENDC + "): ")
     if author_val == '':
         author_val = author
     return author_val
@@ -152,7 +183,8 @@ try:
 
         print("Thanks for using Wasp!\n")
 
-        details['name'] = input("Project/Software Name " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + directory[0:45] + bcolors.ENDC + "): ")
+        details['name'] = input("Project/Software Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + directory[
+                                                                                                         0:45] + Colors.ENDC + "): ")
         if details['name'] == '':
             details['name'] = directory[0:45]
         details['description'] = input("Description " + str(on(["M"], args)) + ": ")
