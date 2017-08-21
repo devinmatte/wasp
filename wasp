@@ -100,6 +100,7 @@ class Manifest:
             self.details['related_applications'] = input("Related Applications " + str(on(["M"], args)) + ": ")
             if self.details['related_applications'] == "":
                 self.details['related_applications'] = []
+                # TODO: Build full prompts for related applications
 
     def display(self):
         self.details['display'] = input(
@@ -169,6 +170,14 @@ def authors():
     return author_val
 
 
+def name():
+    name_val = input(
+        "Project/Software Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + directory[0:45] + Colors.ENDC + "): ")
+    if name_val == '':
+        name_val = directory[0:45]
+    return name_val
+
+
 try:
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('task', metavar='task', type=str, help='A task to perform. Options : init, update, tag')
@@ -183,10 +192,7 @@ try:
 
         print("Thanks for using Wasp!\n")
 
-        details['name'] = input("Project/Software Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + directory[
-                                                                                                         0:45] + Colors.ENDC + "): ")
-        if details['name'] == '':
-            details['name'] = directory[0:45]
+        details['name'] = name()
         details['description'] = input("Description " + str(on(["M"], args)) + ": ")
         details['keywords'] = input("Keywords " + str(on([], args)) + ": ")
         details['authors'] = authors()
