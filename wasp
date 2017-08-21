@@ -6,6 +6,17 @@ import os
 import subprocess
 
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 class Manifest:
     def __init__(self, details: dict):
         self.details = details
@@ -13,6 +24,7 @@ class Manifest:
     def generate(self):
         manifest = {
             "name": self.details['name'],
+            "description": self.details['description'],
             "short_name": self.details['short_name'],
             "theme_color": self.details['theme_color'],
             "background_color": self.details['background_color'],
@@ -33,46 +45,48 @@ class Manifest:
         self.start_url()
         self.lang()
         self.orientation()
+        return self
 
     def short_name(self):
-        self.details['short_name'] = input("Short Name (" + self.details['name'][0:12] + "): ")
+        self.details['short_name'] = input(
+            "Short Name " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + self.details['name'][0:12] + bcolors.ENDC + "): ")
         if self.details['short_name'] == '':
             self.details['short_name'] = self.details['name'][0:12]
 
     def theme_color(self):
         # TODO: Default
         # TODO: Validation
-        self.details['theme_color'] = input("Theme Color: ")
+        self.details['theme_color'] = input("Theme Color " + str(on(["M"], args)) + ": ")
 
     def background_color(self):
         # TODO: Default
         # TODO: Validation
-        self.details['background_color'] = input("Background Color: ")
+        self.details['background_color'] = input("Background Color " + str(on(["M"], args)) + ": ")
 
     def start_url(self):
         # TODO: Default
-        self.details['start_url'] = input("Starting URL: ")
+        self.details['start_url'] = input("Starting URL " + str(on(["M"], args)) + ": ")
 
     def lang(self):
         # TODO: Default
         # TODO: Validation
-        self.details['lang'] = input("Language: ")
+        self.details['lang'] = input("Language " + str(on(["M"], args)) + ": ")
 
     def display(self):
-        self.details['display'] = input("Display (minimal-ui): ")
+        self.details['display'] = input("Display " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + "minimal-ui" + bcolors.ENDC + "): ")
         if self.details['display'].lower() == "minimal-ui" \
                 or self.details['display'].lower() == "browser" \
                 or self.details['display'].lower() == "standalone" \
                 or self.details['display'].lower() == "fullscreen":
             self.details['display'] = self.details['display'].lower()
-        elif self.details['orientation'] == '':
-            self.details['orientation'] = "minimal-ui"
+        elif self.details['display'] == '':
+            self.details['display'] = "minimal-ui"
         else:
             print("Please enter one of the options from https://developer.mozilla.org/en-US/docs/Web/Manifest#display")
             self.display()
 
     def orientation(self):
-        self.details['orientation'] = input("Display Orientation (any): ")
+        self.details['orientation'] = input("Display Orientation " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + "any" + bcolors.ENDC + "): ")
         if self.details['orientation'].lower() == "any" \
                 or self.details['orientation'].lower() == "natural" \
                 or self.details['orientation'].lower() == "landscape" \
@@ -90,8 +104,21 @@ class Manifest:
             self.orientation()
 
 
+def on(options, args):
+    return_options = "["
+    for i, s in enumerate(options):
+        if s == "M" and args.manifest:
+            return_options += bcolors.OKGREEN + "M" + bcolors.ENDC
+        else:
+            return_options += s
+
+        if i < len(options) - 1:
+            return_options += " "
+    return return_options + "]"
+
+
 def privacy():
-    input_val = input("Privacy (private): ")
+    input_val = input("Privacy " + str(on([], args)) + " (" + bcolors.OKBLUE + "private" + bcolors.ENDC + "): ")
     if input_val.lower() == "public" or input_val.lower() == "private":
         return input_val.lower()
     elif input_val == "":
@@ -101,40 +128,43 @@ def privacy():
         privacy()
 
 
+def authors():
+    process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
+    author = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]
+
+    author_val = input("Authors " + str(on([], args)) + " (" + bcolors.OKBLUE + author + bcolors.ENDC + "): ")
+    if author_val == '':
+        author_val = author
+    return author_val
+
+
 try:
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('task', metavar='task', type=str, help='A task to perform. Options : init, update, tag')
     parser.add_argument('-m', '--manifest', action='store_true', help='Generate a manifest.json for your project')
 
     args = parser.parse_args()
-    print(args)
 
     directory = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
-
-    process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
-    author = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]
 
     if args.task == 'init':
         details = {}
 
         print("Thanks for using Wasp!\n")
 
-        details['name'] = input("Project/Software Name (" + directory[0:45] + "): ")
+        details['name'] = input("Project/Software Name " + str(on(["M"], args)) + " (" + bcolors.OKBLUE + directory[0:45] + bcolors.ENDC + "): ")
         if details['name'] == '':
             details['name'] = directory[0:45]
-        details['description'] = input("Description: ")
-        details['keywords'] = input("Keywords: ")
-        details['authors'] = input("Authors (" + author + "): ")
-        if details['authors'] == '':
-            details['authors'] = author
-        details['licence'] = input("Licence: ")
-        details['website'] = input("Website: ")
+        details['description'] = input("Description " + str(on(["M"], args)) + ": ")
+        details['keywords'] = input("Keywords " + str(on([], args)) + ": ")
+        details['authors'] = authors()
+        details['licence'] = input("Licence " + str(on([], args)) + ": ")
+        details['website'] = input("Website " + str(on([], args)) + ": ")
         details['privacy'] = privacy()
 
         if args.manifest:
             print("\nNow let's collect some Manifest Information\n")
-            Manifest(details).set()
-
+            Manifest(details).set().generate()
         with open('.wasp.json', 'w') as fp:
             json.dump(details, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
