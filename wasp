@@ -71,8 +71,9 @@ class Manifest:
         self.details['background_color'] = input("Background Color " + str(on(["M"], args)) + ": ")
 
     def start_url(self):
-        # TODO: Default
-        self.details['start_url'] = input("Starting URL " + str(on(["M"], args)) + ": ")
+        self.details['start_url'] = input("Starting URL " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "/" + Colors.ENDC + "): ")
+        if self.details['start_url'] == '':
+            self.details['start_url'] = "/"
 
     def lang(self):
         # TODO: Default
@@ -80,10 +81,13 @@ class Manifest:
         self.details['lang'] = input("Language " + str(on(["M"], args)) + ": ")
 
     def dir(self):
-        # TODO: Default
-        # TODO: Validation
-        self.details['dir'] = input(
-            "Text Direction " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "auto" + Colors.ENDC + "): ")
+        dir_val = input("Text Direction " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "auto" + Colors.ENDC + "): ")
+        if dir_val.lower() == "ltr" \
+                or dir_val.lower() == "rtl" \
+                or dir_val.lower() == "auto":
+            self.details['dir'] = dir_val.lower()
+        elif dir_val == '':
+            self.details['dir'] = "auto"
 
     def related_applications(self):
         # TODO: Validation
@@ -203,8 +207,9 @@ try:
         if args.manifest:
             print("\nNow let's collect some Manifest Information\n")
             Manifest(details).set().generate()
-        with open('.wasp.json', 'w') as fp:
-            json.dump(details, fp, sort_keys=True, indent=4, separators=(',', ': '))
+
+            # with open('.wasp.json', 'w') as fp:
+            #     json.dump(details, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
 except (KeyboardInterrupt, SystemExit):
     exit(1)
