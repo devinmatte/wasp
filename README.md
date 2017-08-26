@@ -21,3 +21,10 @@ Not currently implemented. Come back soon
 ```
 wasp tag v1.0.5
 ```
+
+Build
+-----
+To build the debian package, update the `changelog` and then run:
+```
+debuild -us -uc
+```
