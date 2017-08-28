@@ -93,18 +93,27 @@ class Manifest:
         # TODO: Validation
         self.details['related_applications_check'] = input("Do you want to include related applications? " + str(
             on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-        if self.details['related_applications_check'].lower() == 'y' \
-                or self.details['related_applications_check'].lower() == 'n':
-            prefer_related_applications = input("Prefer Related Applications " + str(
-                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+        if self.details['related_applications_check'].lower() == 'y':
+            prefer_related_applications = input("Prefer Related Applications? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
             if prefer_related_applications.lower() == 'y':
                 self.details['prefer_related_applications'] = True
             elif prefer_related_applications.lower() == 'n' or prefer_related_applications.lower() == '':
                 self.details['prefer_related_applications'] = False
-            self.details['related_applications'] = input("Related Applications " + str(on(["M"], args)) + ": ")
-            if self.details['related_applications'] == "":
-                self.details['related_applications'] = []
-                # TODO: Build full prompts for related applications
+            related_applications = input(
+                "Add a Related Application? " + str(
+                    on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            self.details['related_applications'] = {}
+            if related_applications.lower() == 'y':
+                related_applications_platform = input("Platform " + str(on(["M"], args)) + ": ")
+                if related_applications_platform != "":
+                    self.details['related_applications']['platform'] = related_applications_platform.lower()
+                related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
+                if related_applications_url != "":
+                    self.details['related_applications']['url'] = related_applications_url.lower()
+                related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
+                if related_applications_id != "":
+                    self.details['related_applications']['id'] = related_applications_id.lower()
+            # TODO: Add more Related Applications
 
     def display(self):
         self.details['display'] = input(
@@ -183,9 +192,10 @@ def name():
 
 
 try:
-    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser = argparse.ArgumentParser(description='Generate and create basic resources for a modern web app. Initialize a project with a manifest, package, and tags versions effectively')
     parser.add_argument('task', metavar='task', type=str, help='A task to perform. Options : init, update, tag')
     parser.add_argument('-m', '--manifest', action='store_true', help='Generate a manifest.json for your project')
+    # parser.add_argument('-p', '--package', action='store_true', help='Generate a package.json for your project')
 
     args = parser.parse_args()
 
