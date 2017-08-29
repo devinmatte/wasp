@@ -89,8 +89,27 @@ class Manifest:
         elif dir_val == '':
             self.details['dir'] = "auto"
 
+    def related_application(self):
+        new_related_application = {}
+        related_applications_platform = input("Platform " + str(on(["M"], args)) + ": ")
+        if related_applications_platform != "":
+            new_related_application['platform'] = related_applications_platform.lower()
+            # TODO: Validation
+        related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
+        if related_applications_url != "":
+            new_related_application['url'] = related_applications_url.lower()
+            # TODO: Validation
+        related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
+        if related_applications_id != "":
+            new_related_application['id'] = related_applications_id.lower()
+            # TODO: Validation
+        self.details['related_applications'].append(new_related_application)
+        related_applications = input(
+            "Add another Related Application? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+        if related_applications.lower() == 'y':
+            self.related_application()
+
     def related_applications(self):
-        # TODO: Validation
         self.details['related_applications_check'] = input("Do you want to include related applications? " + str(
             on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
         if self.details['related_applications_check'].lower() == 'y':
@@ -99,21 +118,10 @@ class Manifest:
                 self.details['prefer_related_applications'] = True
             elif prefer_related_applications.lower() == 'n' or prefer_related_applications.lower() == '':
                 self.details['prefer_related_applications'] = False
-            related_applications = input(
-                "Add a Related Application? " + str(
-                    on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-            self.details['related_applications'] = {}
+            related_applications = input("Add a Related Application? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            self.details['related_applications'] = []
             if related_applications.lower() == 'y':
-                related_applications_platform = input("Platform " + str(on(["M"], args)) + ": ")
-                if related_applications_platform != "":
-                    self.details['related_applications']['platform'] = related_applications_platform.lower()
-                related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
-                if related_applications_url != "":
-                    self.details['related_applications']['url'] = related_applications_url.lower()
-                related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
-                if related_applications_id != "":
-                    self.details['related_applications']['id'] = related_applications_id.lower()
-            # TODO: Add more Related Applications
+                self.related_application()
 
     def display(self):
         self.details['display'] = input(
