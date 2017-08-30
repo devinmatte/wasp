@@ -2,6 +2,7 @@ wasp
 ======
 
 [![Code Triagers Badge](https://www.codetriage.com/devinmatte/wasp/badges/users.svg)](https://www.codetriage.com/devinmatte/wasp)
+[![first-timers-only](http://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 
 Wasp Generates and creates basic resources for a modern web app. 
 Initializes a project with a manifest, package, and helps you tags versions effectively.

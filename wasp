@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
-import json
 import argparse
+import json
 import os
 import subprocess
+from urllib.parse import urlparse
 
 
 class Colors:
@@ -97,8 +98,9 @@ class Manifest:
             # TODO: Validation
         related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
         if related_applications_url != "":
-            new_related_application['url'] = related_applications_url.lower()
-            # TODO: Validation
+            if bool(urlparse(related_applications_url.lower()).scheme):
+                new_related_application['url'] = related_applications_url.lower()
+            # TODO: Reask for valid url
         related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
         if related_applications_id != "":
             new_related_application['id'] = related_applications_id.lower()
