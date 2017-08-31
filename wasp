@@ -22,6 +22,13 @@ class Manifest:
     def __init__(self, details: dict):
         self.details = details
 
+    def is_hex_color(self, string):
+        try:
+            int(string, 16)
+        except ValueError:
+            return False
+        return len(string) == 3 or len(string) == 6
+
     def generate(self):
         manifest = {
             "name": self.details['name'],
@@ -62,14 +69,24 @@ class Manifest:
             self.details['short_name'] = self.details['name'][0:12]
 
     def theme_color(self):
-        # TODO: Default
-        # TODO: Validation
-        self.details['theme_color'] = input("Theme Color " + str(on(["M"], args)) + ": ")
+        self.details['theme_color'] = input("Theme Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
+        if self.details['theme_color'] == "":
+            self.details['theme_color'] = '#FFF'
+        elif not self.is_hex_color(self.details['theme_color']):
+            self.theme_color()
+        else:
+            self.details['theme_color'] = self.details['theme_color'].upper()
+            self.details['theme_color'] = '#' + self.details['theme_color']
 
     def background_color(self):
-        # TODO: Default
-        # TODO: Validation
-        self.details['background_color'] = input("Background Color " + str(on(["M"], args)) + ": ")
+        self.details['background_color'] = input("Background Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
+        if self.details['background_color'] == "":
+            self.details['background_color'] = '#FFF'
+        elif not self.is_hex_color(self.details['background_color']):
+            self.background_color()
+        else:
+            self.details['background_color'] = self.details['background_color'].upper()
+            self.details['background_color'] = '#' + self.details['background_color']
 
     def start_url(self):
         self.details['start_url'] = input("Starting URL " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "/" + Colors.ENDC + "): ")
