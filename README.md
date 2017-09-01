@@ -4,10 +4,10 @@ wasp
 [![Code Triagers Badge](https://www.codetriage.com/devinmatte/wasp/badges/users.svg)](https://www.codetriage.com/devinmatte/wasp)
 [![first-timers-only](http://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 
-Wasp Generates and creates basic resources for a modern web app. 
-Initializes a project with a manifest, package, and helps you tags versions effectively.
+Wasp Generates and creates basic resources for a modern web app.
+Initializes a project with a manifest, package, and helps you tag versions effectively.
 
-Named wasp from the idea that Wasps invented paper long before the first human thought to put his thoughts down on a sheet of papyrus.
+Named wasp from the idea that wasps invented paper long before the first human thought to put his thoughts down on a sheet of papyrus.
 
 Manifest
 --------
