@@ -107,17 +107,22 @@ class Manifest:
         elif dir_val == '':
             self.details['dir'] = "auto"
 
+    def related_application_url(self):
+        related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
+        if related_applications_url != "":
+            if bool(urlparse(related_applications_url.lower()).scheme):
+                return related_applications_url.lower()
+            else:
+                print("Please enter a valid URL")
+                return self.related_application_url()
+
     def related_application(self):
         new_related_application = {}
         related_applications_platform = input("Platform " + str(on(["M"], args)) + ": ")
         if related_applications_platform != "":
             new_related_application['platform'] = related_applications_platform.lower()
             # TODO: Validation
-        related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
-        if related_applications_url != "":
-            if bool(urlparse(related_applications_url.lower()).scheme):
-                new_related_application['url'] = related_applications_url.lower()
-            # TODO: Reask for valid url
+        new_related_application['url'] = self.related_application_url()
         related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
         if related_applications_id != "":
             new_related_application['id'] = related_applications_id.lower()
