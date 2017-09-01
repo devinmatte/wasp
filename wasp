@@ -29,6 +29,13 @@ class Manifest:
             return False
         return len(string) == 3 or len(string) == 6
 
+    def is_valid_lang_code(self, string):
+        valid_langs = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba", "eu", "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "zh-Hans", "zh-Hant", "cv", "kw", "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee", "fo", "fj", "fi", "fr", "ff", "gl", "gd", "gv", "ka", "de", "el", "kl", "gn", "gu", "ht", "ha", "he", "hz", "hi", "ho", "hu", "is", "io", "ig", "id", "in", "ia", "ie", "iu", "ik", "ga", "it", "ja", "jv", "kl", "kn", "kr", "ks", "kk", "km", "ki", "rw", "rn", "ky", "kv", "kg", "ko", "ku", "kj", "lo", "la", "lv", "li", "ln", "lt", "lu", "lg", "lb", "gv", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mh", "mo", "mn", "na", "nv", "ng", "nd", "ne", "no", "nb", "nn", "ii", "oc", "oj", "cu", "or", "om", "os", "pi", "ps", "fa", "pl", "pt", "pa", "qu", "rm", "ro", "ru", "se", "sm", "sg", "sa", "sr", "sh", "st", "tn", "sn", "ii", "sd", "si", "ss", "sk", "sl", "so", "nr", "es", "su", "sw", "ss", "sv", "tl", "ty", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr", "tk", "tw", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy", "wo", "fy", "xh", "yi", "ji", "yo", "za", "zu"]
+        if string in valid_langs:
+            return True
+        else:
+            return False
+
     def generate(self):
         manifest = {
             "name": self.details['name'],
@@ -94,9 +101,15 @@ class Manifest:
             self.details['start_url'] = "/"
 
     def lang(self):
-        # TODO: Default
-        # TODO: Validation
-        self.details['lang'] = input("Language " + str(on(["M"], args)) + ": ")
+        default_lang = "en"
+        self.details['lang'] = input("Language " + str(on(["M"], args)) + " (" + Colors.OKBLUE + default_lang + Colors.ENDC + "): ")
+        if self.is_valid_lang_code(str(self.details['lang'])):
+            self.details['lang'] = self.details['lang']
+        elif self.details['lang'] == "":
+            self.details['lang'] = default_lang
+        else:
+            print("Please enter a valid language code")
+            self.lang()
 
     def dir(self):
         dir_val = input("Text Direction " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "auto" + Colors.ENDC + "): ")
