@@ -19,6 +19,7 @@ class Colors:
 
 
 def is_hex_color(string):
+    """ Checks to see if string is a hex color """
     try:
         int(string, 16)
     except ValueError:
