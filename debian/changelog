@@ -1,7 +1,8 @@
-wasp (1.0.2) UNRELEASED; urgency=low
+wasp (1.0.3) UNRELEASED; urgency=low
 
   * Initial release.
   * Design and Functionality Update
   * Directory Location correct
+  * Icons, related applications, validation and almost full manifest functionality
 
- -- Devin Matte <devinmatte@devinmatte@gmail.com>  Mon, 21 Aug 2017 15:42:04 -0400
+ -- Devin Matte <devinmatte@devinmatte@gmail.com>  Wed, 06 Sep 2017 12:41:12 -0400
