@@ -18,23 +18,30 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 
+def is_hex_color(string):
+    """
+    Checks to see if string is a hex color
+    :param string: user input, checking for validity
+    :return: True if string is 3 or 6 characters, or false otherwise
+    """
+    try:
+        int(string, 16)
+    except ValueError:
+        return False
+    return len(string) == 3 or len(string) == 6
+
+
+def is_valid_lang_code(string):
+    valid_langs = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba", "eu", "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "zh-Hans", "zh-Hant", "cv", "kw", "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee", "fo", "fj", "fi", "fr", "ff", "gl", "gd", "gv", "ka", "de", "el", "kl", "gn", "gu", "ht", "ha", "he", "hz", "hi", "ho", "hu", "is", "io", "ig", "id", "in", "ia", "ie", "iu", "ik", "ga", "it", "ja", "jv", "kl", "kn", "kr", "ks", "kk", "km", "ki", "rw", "rn", "ky", "kv", "kg", "ko", "ku", "kj", "lo", "la", "lv", "li", "ln", "lt", "lu", "lg", "lb", "gv", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mh", "mo", "mn", "na", "nv", "ng", "nd", "ne", "no", "nb", "nn", "ii", "oc", "oj", "cu", "or", "om", "os", "pi", "ps", "fa", "pl", "pt", "pa", "qu", "rm", "ro", "ru", "se", "sm", "sg", "sa", "sr", "sh", "st", "tn", "sn", "ii", "sd", "si", "ss", "sk", "sl", "so", "nr", "es", "su", "sw", "ss", "sv", "tl", "ty", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr", "tk", "tw", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy", "wo", "fy", "xh", "yi", "ji", "yo", "za", "zu"]
+    if string in valid_langs:
+        return True
+    else:
+        return False
+
+
 class Manifest:
     def __init__(self, details: dict):
         self.details = details
-
-    def is_hex_color(self, string):
-        try:
-            int(string, 16)
-        except ValueError:
-            return False
-        return len(string) == 3 or len(string) == 6
-
-    def is_valid_lang_code(self, string):
-        valid_langs = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba", "eu", "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "zh-Hans", "zh-Hant", "cv", "kw", "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee", "fo", "fj", "fi", "fr", "ff", "gl", "gd", "gv", "ka", "de", "el", "kl", "gn", "gu", "ht", "ha", "he", "hz", "hi", "ho", "hu", "is", "io", "ig", "id", "in", "ia", "ie", "iu", "ik", "ga", "it", "ja", "jv", "kl", "kn", "kr", "ks", "kk", "km", "ki", "rw", "rn", "ky", "kv", "kg", "ko", "ku", "kj", "lo", "la", "lv", "li", "ln", "lt", "lu", "lg", "lb", "gv", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mh", "mo", "mn", "na", "nv", "ng", "nd", "ne", "no", "nb", "nn", "ii", "oc", "oj", "cu", "or", "om", "os", "pi", "ps", "fa", "pl", "pt", "pa", "qu", "rm", "ro", "ru", "se", "sm", "sg", "sa", "sr", "sh", "st", "tn", "sn", "ii", "sd", "si", "ss", "sk", "sl", "so", "nr", "es", "su", "sw", "ss", "sv", "tl", "ty", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr", "tk", "tw", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy", "wo", "fy", "xh", "yi", "ji", "yo", "za", "zu"]
-        if string in valid_langs:
-            return True
-        else:
-            return False
 
     def generate(self):
         manifest = {
@@ -52,6 +59,8 @@ class Manifest:
         if self.details['related_applications_check'].lower() == 'y':
             manifest["related_applications"] = self.details['related_applications']
             manifest["prefer_related_applications"] = self.details['prefer_related_applications']
+        if self.details['icons_check'].lower() == 'y':
+            manifest["icons"] = self.details['icons']
 
         with open('manifest.json', 'w') as fp:
             json.dump(manifest, fp, sort_keys=True, indent=4, separators=(',', ': '))
@@ -66,6 +75,7 @@ class Manifest:
         self.start_url()
         self.orientation()
         self.related_applications()
+        self.icons()
         return self
 
     def short_name(self):
@@ -79,7 +89,7 @@ class Manifest:
         self.details['theme_color'] = input("Theme Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
         if self.details['theme_color'] == "":
             self.details['theme_color'] = '#FFF'
-        elif not self.is_hex_color(self.details['theme_color']):
+        elif not is_hex_color(self.details['theme_color']):
             self.theme_color()
         else:
             self.details['theme_color'] = self.details['theme_color'].upper()
@@ -89,7 +99,7 @@ class Manifest:
         self.details['background_color'] = input("Background Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
         if self.details['background_color'] == "":
             self.details['background_color'] = '#FFF'
-        elif not self.is_hex_color(self.details['background_color']):
+        elif not is_hex_color(self.details['background_color']):
             self.background_color()
         else:
             self.details['background_color'] = self.details['background_color'].upper()
@@ -103,7 +113,7 @@ class Manifest:
     def lang(self):
         default_lang = "en"
         self.details['lang'] = input("Language " + str(on(["M"], args)) + " (" + Colors.OKBLUE + default_lang + Colors.ENDC + "): ")
-        if self.is_valid_lang_code(str(self.details['lang'])):
+        if is_valid_lang_code(str(self.details['lang'])):
             self.details['lang'] = self.details['lang']
         elif self.details['lang'] == "":
             self.details['lang'] = default_lang
@@ -120,24 +130,34 @@ class Manifest:
         elif dir_val == '':
             self.details['dir'] = "auto"
 
+    def related_application_url(self):
+        related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
+        if related_applications_url != "":
+            if bool(urlparse(related_applications_url).scheme):
+                return related_applications_url
+            else:
+                print("Please enter a valid URL")
+                return self.related_application_url()
+
     def related_application(self):
         new_related_application = {}
+
         related_applications_platform = input("Platform " + str(on(["M"], args)) + ": ")
         if related_applications_platform != "":
             new_related_application['platform'] = related_applications_platform.lower()
             # TODO: Validation
-        related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
-        if related_applications_url != "":
-            if bool(urlparse(related_applications_url.lower()).scheme):
-                new_related_application['url'] = related_applications_url.lower()
-            # TODO: Reask for valid url
+
+        new_related_application['url'] = self.related_application_url()
+
         related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
         if related_applications_id != "":
             new_related_application['id'] = related_applications_id.lower()
             # TODO: Validation
+
         self.details['related_applications'].append(new_related_application)
         related_applications = input(
             "Add another Related Application? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+
         if related_applications.lower() == 'y':
             self.related_application()
 
@@ -146,14 +166,57 @@ class Manifest:
             on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
         if self.details['related_applications_check'].lower() == 'y':
             prefer_related_applications = input("Prefer Related Applications? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+
             if prefer_related_applications.lower() == 'y':
                 self.details['prefer_related_applications'] = True
             elif prefer_related_applications.lower() == 'n' or prefer_related_applications.lower() == '':
                 self.details['prefer_related_applications'] = False
             related_applications = input("Add a Related Application? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
             self.details['related_applications'] = []
+
             if related_applications.lower() == 'y':
                 self.related_application()
+
+    def icon_src(self):
+        icons_src = input("Image src " + str(on(["M"], args)) + ": ")
+        if icons_src != "":
+            if os.path.isfile(icons_src) or bool(urlparse(icons_src).scheme):
+                return icons_src
+            else:
+                print("Please enter a valid path or URL")
+                return self.icon_src()
+
+    def icon(self):
+        new_icon = {}
+
+        new_icon['src'] = self.icon_src()
+
+        icons_type = input("Type " + str(on(["M"], args)) + ": ")
+        if icons_type != "":
+            new_icon['type'] = icons_type.lower()
+            # TODO: Validation
+
+        icons_sizes = input("Sizes " + str(on(["M"], args)) + ": ")
+        if icons_sizes != "":
+            new_icon['sizes'] = icons_sizes.lower()
+            # TODO: Validation
+
+        self.details['icons'].append(new_icon)
+        icons = input(
+            "Add another Icon? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+
+        if icons.lower() == 'y':
+            self.icon()
+
+    def icons(self):
+        self.details['icons_check'] = input("Do you want to include Icons? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+        if self.details['icons_check'].lower() == 'y':
+            icons = input("Add an Icon? " + str(
+                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            self.details['icons'] = []
+
+            if icons.lower() == 'y':
+                self.icon()
 
     def display(self):
         self.details['display'] = input(
@@ -232,7 +295,8 @@ def name():
 
 
 try:
-    parser = argparse.ArgumentParser(description='Generate and create basic resources for a modern web app. Initialize a project with a manifest, package, and tags versions effectively')
+    description = 'Generate and create basic resources for a modern web app. Initialize a project with a manifest, package, and tags versions effectively'
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument('task', metavar='task', type=str, help='A task to perform. Options : init, update, tag')
     parser.add_argument('-m', '--manifest', action='store_true', help='Generate a manifest.json for your project')
     # parser.add_argument('-p', '--package', action='store_true', help='Generate a package.json for your project')
