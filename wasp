@@ -17,36 +17,39 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 
-def is_hex_color(string):
-    """
-    Checks to see if string is a hex color
-    :param string: user input, checking for validity
-    :return: True if string is 3 or 6 characters, or false otherwise
-    """
-    try:
-        int(string, 16)
-    except ValueError:
-        return False
-    return len(string) == 3 or len(string) == 6
+class Utilities:
+    @staticmethod
+    def is_hex_color(string):
+        """
+        Checks to see if string is a hex color
+        :param string: user input, checking for validity
+        :return: True if string is 3 or 6 characters, or false otherwise
+        """
+        try:
+            int(string, 16)
+        except ValueError:
+            return False
+        return len(string) == 3 or len(string) == 6
 
-
-def is_valid_lang_code(string):
-    valid_langs = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba", "eu",
-                   "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "zh-Hans", "zh-Hant",
-                   "cv", "kw", "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee", "fo", "fj", "fi",
-                   "fr", "ff", "gl", "gd", "gv", "ka", "de", "el", "kl", "gn", "gu", "ht", "ha", "he", "hz", "hi", "ho",
-                   "hu", "is", "io", "ig", "id", "in", "ia", "ie", "iu", "ik", "ga", "it", "ja", "jv", "kl", "kn", "kr",
-                   "ks", "kk", "km", "ki", "rw", "rn", "ky", "kv", "kg", "ko", "ku", "kj", "lo", "la", "lv", "li", "ln",
-                   "lt", "lu", "lg", "lb", "gv", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mh", "mo", "mn", "na", "nv",
-                   "ng", "nd", "ne", "no", "nb", "nn", "ii", "oc", "oj", "cu", "or", "om", "os", "pi", "ps", "fa", "pl",
-                   "pt", "pa", "qu", "rm", "ro", "ru", "se", "sm", "sg", "sa", "sr", "sh", "st", "tn", "sn", "ii", "sd",
-                   "si", "ss", "sk", "sl", "so", "nr", "es", "su", "sw", "ss", "sv", "tl", "ty", "tg", "ta", "tt", "te",
-                   "th", "bo", "ti", "to", "ts", "tr", "tk", "tw", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy",
-                   "wo", "fy", "xh", "yi", "ji", "yo", "za", "zu"]
-    if string in valid_langs:
-        return True
-    else:
-        return False
+    @staticmethod
+    def is_valid_lang_code(string):
+        valid_langs = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba",
+                       "eu", "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "zh-Hans",
+                       "zh-Hant", "cv", "kw", "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee",
+                       "fo", "fj", "fi", "fr", "ff", "gl", "gd", "gv", "ka", "de", "el", "kl", "gn", "gu", "ht", "ha",
+                       "he", "hz", "hi", "ho", "hu", "is", "io", "ig", "id", "in", "ia", "ie", "iu", "ik", "ga", "it",
+                       "ja", "jv", "kl", "kn", "kr", "ks", "kk", "km", "ki", "rw", "rn", "ky", "kv", "kg", "ko", "ku",
+                       "kj", "lo", "la", "lv", "li", "ln", "lt", "lu", "lg", "lb", "gv", "mk", "mg", "ms", "ml", "mt",
+                       "mi", "mr", "mh", "mo", "mn", "na", "nv", "ng", "nd", "ne", "no", "nb", "nn", "ii", "oc", "oj",
+                       "cu", "or", "om", "os", "pi", "ps", "fa", "pl", "pt", "pa", "qu", "rm", "ro", "ru", "se", "sm",
+                       "sg", "sa", "sr", "sh", "st", "tn", "sn", "ii", "sd", "si", "ss", "sk", "sl", "so", "nr", "es",
+                       "su", "sw", "ss", "sv", "tl", "ty", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr",
+                       "tk", "tw", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy", "wo", "fy", "xh", "yi", "ji",
+                       "yo", "za", "zu"]
+        if string in valid_langs:
+            return True
+        else:
+            return False
 
 
 class Details:
@@ -104,7 +107,7 @@ class Details:
             "Theme Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
         if self.details['theme_color'] == "":
             self.details['theme_color'] = '#FFF'
-        elif not is_hex_color(self.details['theme_color']):
+        elif not Utilities.is_hex_color(self.details['theme_color']):
             print("Please enter a valid hex code")
             self.theme_color()
         else:
@@ -116,7 +119,7 @@ class Details:
             "Background Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
         if self.details['background_color'] == "":
             self.details['background_color'] = '#FFF'
-        elif not is_hex_color(self.details['background_color']):
+        elif not Utilities.is_hex_color(self.details['background_color']):
             print("Please enter a valid hex code")
             self.background_color()
         else:
@@ -133,7 +136,7 @@ class Details:
         default_lang = "en"
         self.details['lang'] = input(
             "Language " + str(on(["M"], args)) + " (" + Colors.OKBLUE + default_lang + Colors.ENDC + "): ")
-        if is_valid_lang_code(str(self.details['lang'])):
+        if Utilities.is_valid_lang_code(str(self.details['lang'])):
             self.details['lang'] = self.details['lang']
         elif self.details['lang'] == "":
             self.details['lang'] = default_lang
@@ -327,6 +330,8 @@ try:
     parser.add_argument('task', metavar='task', type=str, help='A task to perform. Options : init, update, tag')
     parser.add_argument('-m', '--manifest', action='store_true', help='Generate a manifest.json for your project')
     # parser.add_argument('-p', '--package', action='store_true', help='Generate a package.json for your project')
+    # parser.add_argument('-c', '--composer', action='store_true', help='Generate a composer.json for your project')
+    # parser.add_argument('-b', '--bower', action='store_true', help='Generate a bower.json for your project')
 
     args = parser.parse_args()
 
