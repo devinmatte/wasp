@@ -3,7 +3,6 @@
 import argparse
 import json
 import os
-import subprocess
 from urllib.parse import urlparse
 
 
@@ -50,43 +49,47 @@ def is_valid_lang_code(string):
         return False
 
 
-class Manifest:
+class Details:
     def __init__(self, details: dict):
         self.details = details
 
     def generate(self):
-        manifest = {
-            "name": self.details['name'],
-            "description": self.details['description'],
-            "short_name": self.details['short_name'],
-            "theme_color": self.details['theme_color'],
-            "background_color": self.details['background_color'],
-            "start_url": self.details['start_url'],
-            "display": self.details['display'],
-            "lang": self.details['lang'],
-            "orientation": self.details['orientation'],
-            "dir": self.details['dir']
-        }
-        if self.details['related_applications_check'].lower() == 'y':
-            manifest["related_applications"] = self.details['related_applications']
-            manifest["prefer_related_applications"] = self.details['prefer_related_applications']
-        if self.details['icons_check'].lower() == 'y':
-            manifest["icons"] = self.details['icons']
+        if args.manifest:
+            manifest = {
+                "name": self.details['name'],
+                "description": self.details['description'],
+                "short_name": self.details['short_name'],
+                "theme_color": self.details['theme_color'],
+                "background_color": self.details['background_color'],
+                "start_url": self.details['start_url'],
+                "display": self.details['display'],
+                "lang": self.details['lang'],
+                "orientation": self.details['orientation'],
+                "dir": self.details['dir']
+            }
+            if self.details['related_applications_check'].lower() == 'y':
+                manifest["related_applications"] = self.details['related_applications']
+                manifest["prefer_related_applications"] = self.details['prefer_related_applications']
+            if self.details['icons_check'].lower() == 'y':
+                manifest["icons"] = self.details['icons']
 
-        with open('manifest.json', 'w') as fp:
-            json.dump(manifest, fp, sort_keys=True, indent=4, separators=(',', ': '))
+            with open('manifest.json', 'w') as fp:
+                json.dump(manifest, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
     def set(self):
-        self.short_name()
-        self.theme_color()
-        self.background_color()
-        self.display()
-        self.lang()
-        self.dir()
-        self.start_url()
-        self.orientation()
-        self.related_applications()
-        self.icons()
+        if args.manifest:
+            self.name()
+            self.description()
+            self.short_name()
+            self.theme_color()
+            self.background_color()
+            self.display()
+            self.lang()
+            self.dir()
+            self.start_url()
+            self.orientation()
+            self.related_applications()
+            self.icons()
         return self
 
     def short_name(self):
@@ -97,7 +100,8 @@ class Manifest:
             self.details['short_name'] = self.details['name'][0:12]
 
     def theme_color(self):
-        self.details['theme_color'] = input("Theme Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
+        self.details['theme_color'] = input(
+            "Theme Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
         if self.details['theme_color'] == "":
             self.details['theme_color'] = '#FFF'
         elif not is_hex_color(self.details['theme_color']):
@@ -108,7 +112,8 @@ class Manifest:
             self.details['theme_color'] = '#' + self.details['theme_color']
 
     def background_color(self):
-        self.details['background_color'] = input("Background Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
+        self.details['background_color'] = input(
+            "Background Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
         if self.details['background_color'] == "":
             self.details['background_color'] = '#FFF'
         elif not is_hex_color(self.details['background_color']):
@@ -119,13 +124,15 @@ class Manifest:
             self.details['background_color'] = '#' + self.details['background_color']
 
     def start_url(self):
-        self.details['start_url'] = input("Starting URL " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "/" + Colors.ENDC + "): ")
+        self.details['start_url'] = input(
+            "Starting URL " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "/" + Colors.ENDC + "): ")
         if self.details['start_url'] == '':
             self.details['start_url'] = "/"
 
     def lang(self):
         default_lang = "en"
-        self.details['lang'] = input("Language " + str(on(["M"], args)) + " (" + Colors.OKBLUE + default_lang + Colors.ENDC + "): ")
+        self.details['lang'] = input(
+            "Language " + str(on(["M"], args)) + " (" + Colors.OKBLUE + default_lang + Colors.ENDC + "): ")
         if is_valid_lang_code(str(self.details['lang'])):
             self.details['lang'] = self.details['lang']
         elif self.details['lang'] == "":
@@ -169,7 +176,8 @@ class Manifest:
 
         self.details['related_applications'].append(new_related_application)
         related_applications = input(
-            "Add another Related Application? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            "Add another Related Application? " + str(
+                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
 
         if related_applications.lower() == 'y':
             self.related_application()
@@ -178,13 +186,15 @@ class Manifest:
         self.details['related_applications_check'] = input("Do you want to include related applications? " + str(
             on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
         if self.details['related_applications_check'].lower() == 'y':
-            prefer_related_applications = input("Prefer Related Applications? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            prefer_related_applications = input("Prefer Related Applications? " + str(
+                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
 
             if prefer_related_applications.lower() == 'y':
                 self.details['prefer_related_applications'] = True
             elif prefer_related_applications.lower() == 'n' or prefer_related_applications.lower() == '':
                 self.details['prefer_related_applications'] = False
-            related_applications = input("Add a Related Application? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            related_applications = input("Add a Related Application? " + str(
+                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
             self.details['related_applications'] = []
 
             if related_applications.lower() == 'y':
@@ -222,7 +232,8 @@ class Manifest:
             self.icon()
 
     def icons(self):
-        self.details['icons_check'] = input("Do you want to include Icons? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+        self.details['icons_check'] = input("Do you want to include Icons? " + str(
+            on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
         if self.details['icons_check'].lower() == 'y':
             icons = input("Add an Icon? " + str(
                 on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
@@ -264,6 +275,34 @@ class Manifest:
                 "Please enter one of the options from https://developer.mozilla.org/en-US/docs/Web/Manifest#orientation")
             self.orientation()
 
+    # def privacy(self):
+    #     input_val = input("Privacy " + str(on([], args)) + " (" + Colors.OKBLUE + "private" + Colors.ENDC + "): ")
+    #     if input_val.lower() == "public" or input_val.lower() == "private":
+    #         return input_val.lower()
+    #     elif input_val == "":
+    #         return "private"
+    #     else:
+    #         print("Please enter \"public\" or \"private\"")
+    #         self.privacy()
+    #
+    # def authors(self):
+    #     process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
+    #     author = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]
+    #
+    #     author_val = input("Authors " + str(on([], args)) + " (" + Colors.OKBLUE + author + Colors.ENDC + "): ")
+    #     if author_val == '':
+    #         author_val = author
+    #     return author_val
+
+    def name(self):
+        self.details['name'] = input("Project/Software Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + directory[
+                                                                                                              0:45] + Colors.ENDC + "): ")
+        if self.details['name'] == '':
+            self.details['name'] = directory[0:45]
+
+    def description(self):
+        self.details['description'] = input("Description " + str(on(["M"], args)) + ": ")
+
 
 def on(options, args):
     return_options = "["
@@ -276,35 +315,6 @@ def on(options, args):
         if i < len(options) - 1:
             return_options += " "
     return return_options + "]"
-
-
-def privacy():
-    input_val = input("Privacy " + str(on([], args)) + " (" + Colors.OKBLUE + "private" + Colors.ENDC + "): ")
-    if input_val.lower() == "public" or input_val.lower() == "private":
-        return input_val.lower()
-    elif input_val == "":
-        return "private"
-    else:
-        print("Please enter \"public\" or \"private\"")
-        privacy()
-
-
-def authors():
-    process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
-    author = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]
-
-    author_val = input("Authors " + str(on([], args)) + " (" + Colors.OKBLUE + author + Colors.ENDC + "): ")
-    if author_val == '':
-        author_val = author
-    return author_val
-
-
-def name():
-    name_val = input(
-        "Project/Software Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + directory[0:45] + Colors.ENDC + "): ")
-    if name_val == '':
-        name_val = directory[0:45]
-    return name_val
 
 
 try:
@@ -320,23 +330,8 @@ try:
 
     if args.task == 'init':
         details = {}
+        Details(details).set().generate()
 
-        print("Thanks for using Wasp!\n")
-
-        details['name'] = name()
-        details['description'] = input("Description " + str(on(["M"], args)) + ": ")
-        details['keywords'] = input("Keywords " + str(on([], args)) + ": ")
-        details['authors'] = authors()
-        details['licence'] = input("Licence " + str(on([], args)) + ": ")
-        details['website'] = input("Website " + str(on([], args)) + ": ")
-        details['privacy'] = privacy()
-
-        if args.manifest:
-            print("\nNow let's collect some Manifest Information\n")
-            Manifest(details).set().generate()
-
-            # with open('.wasp.json', 'w') as fp:
-            #     json.dump(details, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
 except (KeyboardInterrupt, SystemExit):
     exit(1)
