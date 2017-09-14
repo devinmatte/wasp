@@ -101,6 +101,7 @@ class Manifest:
         if self.details['theme_color'] == "":
             self.details['theme_color'] = '#FFF'
         elif not is_hex_color(self.details['theme_color']):
+            print("Please enter a valid hex code")
             self.theme_color()
         else:
             self.details['theme_color'] = self.details['theme_color'].upper()
@@ -111,6 +112,7 @@ class Manifest:
         if self.details['background_color'] == "":
             self.details['background_color'] = '#FFF'
         elif not is_hex_color(self.details['background_color']):
+            print("Please enter a valid hex code")
             self.background_color()
         else:
             self.details['background_color'] = self.details['background_color'].upper()
