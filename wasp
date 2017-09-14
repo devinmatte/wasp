@@ -88,8 +88,8 @@ class Details:
             self.dir()
             self.start_url()
             self.orientation()
-            self.related_applications()
-            self.icons()
+            self.RelatedApplication(details)
+            self.Icon(details)
         return self
 
     def short_name(self):
@@ -150,98 +150,6 @@ class Details:
         elif dir_val == '':
             self.details['dir'] = "auto"
 
-    def related_application_url(self):
-        related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
-        if related_applications_url != "":
-            if bool(urlparse(related_applications_url).scheme):
-                return related_applications_url
-            else:
-                print("Please enter a valid URL")
-                return self.related_application_url()
-
-    def related_application(self):
-        new_related_application = {}
-
-        related_applications_platform = input("Platform " + str(on(["M"], args)) + ": ")
-        if related_applications_platform != "":
-            new_related_application['platform'] = related_applications_platform.lower()
-            # TODO: Validation
-
-        new_related_application['url'] = self.related_application_url()
-
-        related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
-        if related_applications_id != "":
-            new_related_application['id'] = related_applications_id.lower()
-            # TODO: Validation
-
-        self.details['related_applications'].append(new_related_application)
-        related_applications = input(
-            "Add another Related Application? " + str(
-                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-
-        if related_applications.lower() == 'y':
-            self.related_application()
-
-    def related_applications(self):
-        self.details['related_applications_check'] = input("Do you want to include related applications? " + str(
-            on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-        if self.details['related_applications_check'].lower() == 'y':
-            prefer_related_applications = input("Prefer Related Applications? " + str(
-                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-
-            if prefer_related_applications.lower() == 'y':
-                self.details['prefer_related_applications'] = True
-            elif prefer_related_applications.lower() == 'n' or prefer_related_applications.lower() == '':
-                self.details['prefer_related_applications'] = False
-            related_applications = input("Add a Related Application? " + str(
-                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-            self.details['related_applications'] = []
-
-            if related_applications.lower() == 'y':
-                self.related_application()
-
-    def icon_src(self):
-        icons_src = input("Image src " + str(on(["M"], args)) + ": ")
-        if icons_src != "":
-            if os.path.isfile(icons_src) or bool(urlparse(icons_src).scheme):
-                return icons_src
-            else:
-                print("Please enter a valid path or URL")
-                return self.icon_src()
-
-    def icon(self):
-        new_icon = {}
-
-        new_icon['src'] = self.icon_src()
-
-        icons_type = input("Type " + str(on(["M"], args)) + ": ")
-        if icons_type != "":
-            new_icon['type'] = icons_type.lower()
-            # TODO: Validation
-
-        icons_sizes = input("Sizes " + str(on(["M"], args)) + ": ")
-        if icons_sizes != "":
-            new_icon['sizes'] = icons_sizes.lower()
-            # TODO: Validation
-
-        self.details['icons'].append(new_icon)
-        icons = input(
-            "Add another Icon? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-
-        if icons.lower() == 'y':
-            self.icon()
-
-    def icons(self):
-        self.details['icons_check'] = input("Do you want to include Icons? " + str(
-            on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-        if self.details['icons_check'].lower() == 'y':
-            icons = input("Add an Icon? " + str(
-                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
-            self.details['icons'] = []
-
-            if icons.lower() == 'y':
-                self.icon()
-
     def display(self):
         self.details['display'] = input(
             "Display " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "minimal-ui" + Colors.ENDC + "): ")
@@ -293,6 +201,102 @@ class Details:
     #     if author_val == '':
     #         author_val = author
     #     return author_val
+
+    class Icon:
+        def __init__(self, details: dict):
+            self.details = details
+            self.details['icons_check'] = input("Do you want to include Icons? " + str(
+                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            if self.details['icons_check'].lower() == 'y':
+                icons = input("Add an Icon? " + str(
+                    on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+                self.details['icons'] = []
+
+                if icons.lower() == 'y':
+                    self.icon()
+
+        def icon_src(self):
+            icons_src = input("Image src " + str(on(["M"], args)) + ": ")
+            if icons_src != "":
+                if os.path.isfile(icons_src) or bool(urlparse(icons_src).scheme):
+                    return icons_src
+                else:
+                    print("Please enter a valid path or URL")
+                    return self.icon_src()
+
+        def icon(self):
+            new_icon = {}
+
+            new_icon['src'] = self.icon_src()
+
+            icons_type = input("Type " + str(on(["M"], args)) + ": ")
+            if icons_type != "":
+                new_icon['type'] = icons_type.lower()
+                # TODO: Validation
+
+            icons_sizes = input("Sizes " + str(on(["M"], args)) + ": ")
+            if icons_sizes != "":
+                new_icon['sizes'] = icons_sizes.lower()
+                # TODO: Validation
+
+            self.details['icons'].append(new_icon)
+            icons = input(
+                "Add another Icon? " + str(on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+
+            if icons.lower() == 'y':
+                self.icon()
+
+    class RelatedApplication:
+        def __init__(self, details: dict):
+            self.details = details
+            self.details['related_applications_check'] = input("Do you want to include related applications? " + str(
+                on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+            if self.details['related_applications_check'].lower() == 'y':
+                prefer_related_applications = input("Prefer Related Applications? " + str(
+                    on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+
+                if prefer_related_applications.lower() == 'y':
+                    self.details['prefer_related_applications'] = True
+                elif prefer_related_applications.lower() == 'n' or prefer_related_applications.lower() == '':
+                    self.details['prefer_related_applications'] = False
+                related_applications = input("Add a Related Application? " + str(
+                    on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+                self.details['related_applications'] = []
+
+                if related_applications.lower() == 'y':
+                    self.related_application()
+
+        def related_application_url(self):
+            related_applications_url = input("URL " + str(on(["M"], args)) + ": ")
+            if related_applications_url != "":
+                if bool(urlparse(related_applications_url).scheme):
+                    return related_applications_url
+                else:
+                    print("Please enter a valid URL")
+                    return self.related_application_url()
+
+        def related_application(self):
+            new_related_application = {}
+
+            related_applications_platform = input("Platform " + str(on(["M"], args)) + ": ")
+            if related_applications_platform != "":
+                new_related_application['platform'] = related_applications_platform.lower()
+                # TODO: Validation
+
+            new_related_application['url'] = self.related_application_url()
+
+            related_applications_id = input("ID " + str(on(["M"], args)) + ": ")
+            if related_applications_id != "":
+                new_related_application['id'] = related_applications_id.lower()
+                # TODO: Validation
+
+            self.details['related_applications'].append(new_related_application)
+            related_applications = input(
+                "Add another Related Application? " + str(
+                    on(["M"], args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+
+            if related_applications.lower() == 'y':
+                self.related_application()
 
     def name(self):
         self.details['name'] = input("Project/Software Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + directory[
