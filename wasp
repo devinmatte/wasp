@@ -79,10 +79,22 @@ class Details:
             with open('manifest.json', 'w') as fp:
                 json.dump(manifest, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
+        if args.package:
+            package = {
+                "name": self.details['name'],
+                "description": self.details['description']
+            }
+            if 'safe_name' in self.details:
+                package['name'] = self.details['safe_name']
+
+            with open('package.json', 'w') as fp:
+                json.dump(package, fp, sort_keys=True, indent=4, separators=(',', ': '))
+
     def set(self):
-        if args.manifest:
+        if args.manifest or args.package:
             self.name()
             self.description()
+        if args.manifest:
             self.short_name()
             self.theme_color()
             self.background_color()
@@ -302,13 +314,37 @@ class Details:
                 self.related_application()
 
     def name(self):
-        self.details['name'] = input("Project/Software Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + directory[
-                                                                                                              0:45] + Colors.ENDC + "): ")
+        self.details['name'] = input(
+            "Project/Software Name " + str(on(["M", "P"], args)) + " (" + Colors.OKBLUE + directory[
+                                                                                          0:45] + Colors.ENDC + "): ")
         if self.details['name'] == '':
             self.details['name'] = directory[0:45]
 
+        # Check if the name is safe for packages
+        if args.package:
+            self.safe_name()
+
+    def safe_name(self):
+        # TODO: Use regex
+        if self.details['name'] != (self.details['name'].lower()).replace(" ", "-"):
+            self.details['safe_name'] = input(
+                "Package Name " + str(on(["P"], args)) + " (" + Colors.OKBLUE + (self.details['name'].lower()).replace(
+                    " ", "-")[0:214] + Colors.ENDC + "): ")
+            if self.details['safe_name'] == '':
+                self.details['safe_name'] = (self.details['name'].lower()).replace(" ", "-")[0:214]
+
+            if self.details['safe_name'] != (self.details['safe_name'].lower()).replace(" ", "-"):
+                print("Package names cannot have uppercase letters or spaces, please try a new name:")
+                self.safe_name()
+            if len(self.details['safe_name']) > 214:
+                print("Package names must less than or equal to 214 characters, please try a new name:")
+                self.safe_name()
+            if self.details['safe_name'][:1] == "." or self.details['safe_name'][:1] == "_":
+                print("Package names cannot begin with a '.' or '_', please try a new name:")
+                self.safe_name()
+
     def description(self):
-        self.details['description'] = input("Description " + str(on(["M"], args)) + ": ")
+        self.details['description'] = input("Description " + str(on(["M", "P"], args)) + ": ")
 
 
 def on(options, args):
@@ -316,6 +352,8 @@ def on(options, args):
     for i, s in enumerate(options):
         if s == "M" and args.manifest:
             return_options += Colors.OKGREEN + "M" + Colors.ENDC
+        elif s == "P" and args.package:
+            return_options += Colors.OKGREEN + "P" + Colors.ENDC
         else:
             return_options += s
 
@@ -329,7 +367,7 @@ try:
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('task', metavar='task', type=str, help='A task to perform. Options : init, update, tag')
     parser.add_argument('-m', '--manifest', action='store_true', help='Generate a manifest.json for your project')
-    # parser.add_argument('-p', '--package', action='store_true', help='Generate a package.json for your project')
+    parser.add_argument('-p', '--package', action='store_true', help='Generate a package.json for your project')
     # parser.add_argument('-c', '--composer', action='store_true', help='Generate a composer.json for your project')
     # parser.add_argument('-b', '--bower', action='store_true', help='Generate a bower.json for your project')
 
