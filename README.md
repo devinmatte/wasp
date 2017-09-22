@@ -29,3 +29,11 @@ To build the debian package, update the `changelog` and then run:
 ```
 debuild -us -uc
 ```
+
+Design
+------
+
+Right now there's no format design pattern in use. The current goal is to get a functioning tool.
+I would like to follow a formally defined design pattern, but until I determine one, this is the current design.
+
+![UML Diagram](diagram.png)
