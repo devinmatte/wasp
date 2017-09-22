@@ -198,6 +198,7 @@ class Details:
                 "Please enter one of the options from https://developer.mozilla.org/en-US/docs/Web/Manifest#orientation")
             self.orientation()
 
+    # TODO: Implement
     # def privacy(self):
     #     input_val = input("Privacy " + str(on([], args)) + " (" + Colors.OKBLUE + "private" + Colors.ENDC + "): ")
     #     if input_val.lower() == "public" or input_val.lower() == "private":
@@ -208,6 +209,7 @@ class Details:
     #         print("Please enter \"public\" or \"private\"")
     #         self.privacy()
     #
+    # TODO: Implement
     # def authors(self):
     #     process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
     #     author = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]

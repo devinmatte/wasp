@@ -16,9 +16,16 @@ Helps to generate a [web manifest](https://developer.mozilla.org/en-US/docs/Web/
 wasp init [-m --manifest]
 ```
 
+Package
+--------
+Helps to generate a [package.json](https://docs.npmjs.com/files/package.json) for NPM or other tools that use this configuration. It creates a `package.json` to the NPM spec.
+```
+wasp init [-p --package]
+```
+
 Tagging
 -------
-Not currently implemented. Come back soon
+Not currently implemented. Come back in a few versions
 ```
 wasp tag v1.0.5
 ```
