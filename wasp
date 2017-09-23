@@ -45,7 +45,12 @@ class Utilities:
                        "sg", "sa", "sr", "sh", "st", "tn", "sn", "ii", "sd", "si", "ss", "sk", "sl", "so", "nr", "es",
                        "su", "sw", "ss", "sv", "tl", "ty", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr",
                        "tk", "tw", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy", "wo", "fy", "xh", "yi", "ji",
-                       "yo", "za", "zu"]
+                       "yo", "za", "zu", "ar-ae", "ar-bh", "ar-dz", "ar-eg", "ar-iq", "ar-jo", "ar-kw", "ar-lb", "ar-ly",
+                       "ar-ma", "ar-om", "ar-qa", "ar-sa","ar-sy", "ar-tn", "ar-ye", "de-at", "de-ch", "de-li", "de-lu",
+                       "en-au", "en-bz", "en-ca", "en-gb", "en-ie", "en-jm", "en-nz", "en-tt", "en-us", "en-za", "es-ar",
+                       "es-bo", "es-cl", "es-co", "es-cr", "es-do", "es-ec", "es-gt", "es-hn", "es-mx", "es-ni", "es-pa",
+                       "es-pe", "es-pr", "es-py", "es-sv", "es-uy", "es-ve", "fr-be", "fr-ca", "fr-ch", "fr-lu", "it-ch",
+                       "nl-be", "pt-br", "ro-md", "ru-md", "sb", "sv-fi", "zh-cn", "zh-hk", "zh-sg", "zh-tw"]
         if string in valid_langs:
             return True
         else:
