@@ -33,6 +33,7 @@ class Utilities:
 
     @staticmethod
     def is_valid_lang_code(string):
+        """Validates user-inputted lang code"""
         valid_langs = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba",
                        "eu", "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "zh-Hans",
                        "zh-Hant", "cv", "kw", "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee",
@@ -96,13 +97,14 @@ class Details:
                 json.dump(package, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
     def set(self):
+        """ Individual method calls prompting user to input specific fields for manifest and/or package. """
         if args.manifest or args.package:
             self.name()
             self.description()
         if args.manifest:
             self.short_name()
-            self.theme_color()
-            self.background_color()
+            self.app_colors('theme_color')
+            self.app_colors('background_color')
             self.display()
             self.lang()
             self.dir()
@@ -113,43 +115,40 @@ class Details:
         return self
 
     def short_name(self):
+        """ Prompt user for short, human-readable name. """
         self.details['short_name'] = input(
             "Short Name " + str(on(["M"], args)) + " (" + Colors.OKBLUE + self.details['name'][
                                                                           0:12] + Colors.ENDC + "): ")
+        # default to project name
         if self.details['short_name'] == '':
             self.details['short_name'] = self.details['name'][0:12]
 
-    def theme_color(self):
-        self.details['theme_color'] = input(
-            "Theme Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
-        if self.details['theme_color'] == "":
-            self.details['theme_color'] = '#FFF'
-        elif not Utilities.is_hex_color(self.details['theme_color']):
+    def app_colors(self, color_type):
+        """ Prompt user for theme/background color, ensure valid hex value entered. Default for both is white. """
+        if (color_type == 'theme_color'):
+            prompt = "Theme Color "
+        elif (color_type ==  'background_color'):
+            prompt = "Background Color "
+        self.details[color_type] = input(
+            prompt + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
+        if self.details[color_type] == "":
+            self.details[color_type] = '#FFF'
+        elif not Utilities.is_hex_color(self.details[color_type]):
             print("Please enter a valid hex code")
-            self.theme_color()
+            self.app_colors(color_type)
         else:
-            self.details['theme_color'] = self.details['theme_color'].upper()
-            self.details['theme_color'] = '#' + self.details['theme_color']
+            self.details[color_type] = '#' + self.details[color_type].upper()
 
-    def background_color(self):
-        self.details['background_color'] = input(
-            "Background Color " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "#FFF" + Colors.ENDC + "): #")
-        if self.details['background_color'] == "":
-            self.details['background_color'] = '#FFF'
-        elif not Utilities.is_hex_color(self.details['background_color']):
-            print("Please enter a valid hex code")
-            self.background_color()
-        else:
-            self.details['background_color'] = self.details['background_color'].upper()
-            self.details['background_color'] = '#' + self.details['background_color']
 
     def start_url(self):
+        """ Prompt user for URL that loads when application launched. Default is /. """
         self.details['start_url'] = input(
             "Starting URL " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "/" + Colors.ENDC + "): ")
         if self.details['start_url'] == '':
             self.details['start_url'] = "/"
 
     def lang(self):
+        """ Prompt user for primary language, ensure valid lang code entered. Default is English. """
         default_lang = "en"
         self.details['lang'] = input(
             "Language " + str(on(["M"], args)) + " (" + Colors.OKBLUE + default_lang + Colors.ENDC + "): ")
@@ -162,6 +161,7 @@ class Details:
             self.lang()
 
     def dir(self):
+        """ Prompt user for primary text direction for 'name', 'short_name', and 'description' members. Default is 'auto'. """
         dir_val = input("Text Direction " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "auto" + Colors.ENDC + "): ")
         if dir_val.lower() == "ltr" \
                 or dir_val.lower() == "rtl" \
@@ -171,6 +171,7 @@ class Details:
             self.details['dir'] = "auto"
 
     def display(self):
+        """ Prompt user for display mode. Default is 'minimal-ui'. """
         self.details['display'] = input(
             "Display " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "minimal-ui" + Colors.ENDC + "): ")
         if self.details['display'].lower() == "minimal-ui" \
@@ -185,6 +186,7 @@ class Details:
             self.display()
 
     def orientation(self):
+        """ Prompt user for orientation of app's top level browsing contexts. Default is 'any'. """
         self.details['orientation'] = input(
             "Display Orientation " + str(on(["M"], args)) + " (" + Colors.OKBLUE + "any" + Colors.ENDC + "): ")
         if self.details['orientation'].lower() == "any" \
@@ -225,6 +227,10 @@ class Details:
     #     return author_val
 
     class Icon:
+        """
+        Specifies parameters for (optional) icon image.
+        Prompts user to add additional icon object to array after each instantiation.
+        """
         def __init__(self, details: dict):
             self.details = details
             self.details['icons_check'] = input("Do you want to include Icons? " + str(
@@ -269,6 +275,10 @@ class Details:
                 self.icon()
 
     class RelatedApplication:
+        """
+        Specifies parameters for optional related application object.
+        Prompts user to add additional application object to array after each instantiation.
+        """
         def __init__(self, details: dict):
             self.details = details
             self.details['related_applications_check'] = input("Do you want to include related applications? " + str(
@@ -321,6 +331,7 @@ class Details:
                 self.related_application()
 
     def name(self):
+        """ Prompt user for project name. Defaults to current directory name. """
         self.details['name'] = input(
             "Project/Software Name " + str(on(["M", "P"], args)) + " (" + Colors.OKBLUE + directory[
                                                                                           0:45] + Colors.ENDC + "): ")
@@ -332,6 +343,7 @@ class Details:
             self.safe_name()
 
     def safe_name(self):
+        """ Validate project name is safe for packages, asking for alternate input if needed. """
         # TODO: Use regex
         if self.details['name'] != (self.details['name'].lower()).replace(" ", "-"):
             self.details['safe_name'] = input(
@@ -351,10 +363,12 @@ class Details:
                 self.safe_name()
 
     def description(self):
+        """ Prompt user for app description. """
         self.details['description'] = input("Description " + str(on(["M", "P"], args)) + ": ")
 
 
 def on(options, args):
+    """ Inject colorized indicators ('M' and/or 'P') into input prompts, depending on whether user is creating package and/or manifest. """
     return_options = "["
     for i, s in enumerate(options):
         if s == "M" and args.manifest:
