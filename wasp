@@ -94,6 +94,9 @@ class Details:
             if 'safe_name' in self.details:
                 package['name'] = self.details['safe_name']
 
+            if 'keywords' in self.details:
+                package['keywords'] = self.details['keywords']
+
             with open('package.json', 'w') as fp:
                 json.dump(package, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
@@ -102,6 +105,7 @@ class Details:
         if args.manifest or args.package:
             self.name()
             self.description()
+            self.keywords()
         if args.manifest:
             self.short_name()
             self.app_colors('theme_color')
@@ -124,6 +128,13 @@ class Details:
         if self.details['short_name'] == '':
             self.details['short_name'] = self.details['name'][0:12]
 
+    def keywords(self):
+       keywords = input("Keywords "+ str(on(["M", "P"], args)) + ":")
+       if keywords != '':
+            self.details['keywords'] = keywords.split(sep=' ')
+            
+            
+             
     def app_colors(self, color_type):
         """ Prompt user for theme/background color, ensure valid hex value entered. Default for both is white. """
         if color_type == 'theme_color':
