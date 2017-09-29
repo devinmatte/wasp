@@ -132,9 +132,7 @@ class Details:
        keywords = input("Keywords "+ str(on(["M", "P"], args)) + ":")
        if keywords != '':
             self.details['keywords'] = keywords.split(sep=' ')
-            
-            
-             
+                         
     def app_colors(self, color_type):
         """ Prompt user for theme/background color, ensure valid hex value entered. Default for both is white. """
         if color_type == 'theme_color':
