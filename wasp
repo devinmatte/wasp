@@ -3,8 +3,8 @@
 import argparse
 import json
 import os
+import re
 from urllib.parse import urlparse
-
 
 class Colors:
     HEADER = '\033[95m'
@@ -166,11 +166,17 @@ class Details:
         """ Prompt user for URL to the issue tracker of the project. """
         self.details['issue_tracker_url'] = input(
             "Issue Tracker URL " + str(on(["P"], args)) + " (" + Colors.OKBLUE + "\"\"" + Colors.ENDC + "): ")
-
+        if ('http://' or 'https://') not in self.details['issue_tracker_url']:
+            print("Issue Tracker URL must have 'http://' or 'https://'") 
+            self.issue_tracker_url()              
+        
     def bug_report_email(self):
         """ Prompt user for the email address to which the bug reports can be sent. """
         self.details['bug_report_email'] = input(
             "Bug Report Email " + str(on(["P"], args)) + " (" + Colors.OKBLUE + "\"\"" + Colors.ENDC + "): ")
+        if '@' not in self.details['bug_report_email']:
+            print("Bug Report Email must have '@' character")
+            self.bug_report_email()
 
     def start_url(self):
         """ Prompt user for URL that loads when application launched. Default is /. """
