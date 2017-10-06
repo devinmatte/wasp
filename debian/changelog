@@ -1,9 +1,11 @@
-wasp (1.0.4) UNRELEASED; urgency=low
+wasp (1.0.5) UNRELEASED; urgency=low
 
   * Initial release.
   * Design and Functionality Update
   * Directory Location correct
   * Icons, related applications, validation and almost full manifest functionality
   * Refactor to remove unused prompts, and account for cleaner design
+  * Updated heavily to support package.json in a few forms. Basic working versio
+n for manifest.json 
 
- -- Devin Matte <devinmatte@devinmatte@gmail.com>  Thurs, 14 Sep 2017 14:11:12 -0400
+ -- Devin Matte <devinmatte@Mjolnir>  Thu, 05 Oct 2017 22:43:48 -0400
