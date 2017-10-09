@@ -202,27 +202,6 @@ class Details:
                 "Please enter one of the options from https://developer.mozilla.org/en-US/docs/Web/Manifest#orientation")
             self.orientation()
 
-    # TODO: Implement
-    # def privacy(self):
-    #     input_val = input("Privacy " + str(on([], args)) + " (" + Colors.OKBLUE + "private" + Colors.ENDC + "): ")
-    #     if input_val.lower() == "public" or input_val.lower() == "private":
-    #         return input_val.lower()
-    #     elif input_val == "":
-    #         return "private"
-    #     else:
-    #         print("Please enter \"public\" or \"private\"")
-    #         self.privacy()
-    #
-    # TODO: Implement
-    # def authors(self):
-    #     process = subprocess.Popen(["git", "config", "--get", "user.name"], stdout=subprocess.PIPE)
-    #     author = (process.communicate()[0]).decode("utf-8").strip().split('\n')[0]
-    #
-    #     author_val = input("Authors " + str(on([], args)) + " (" + Colors.OKBLUE + author + Colors.ENDC + "): ")
-    #     if author_val == '':
-    #         author_val = author
-    #     return author_val
-
     class Icon:
         """
         Specifies parameters for (optional) icon image.
