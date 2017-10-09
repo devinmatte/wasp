@@ -1,4 +1,4 @@
-wasp (1.0.5) UNRELEASED; urgency=low
+wasp (1.0.6) UNRELEASED; urgency=low
 
   * Initial release.
   * Design and Functionality Update
@@ -7,5 +7,6 @@ wasp (1.0.5) UNRELEASED; urgency=low
   * Refactor to remove unused prompts, and account for cleaner design
   * Updated heavily to support package.json in a few forms. Basic working versio
 n for manifest.json 
+  * Updated Package to split into 4 seperate files to help properly manage class files
 
- -- Devin Matte <devinmatte@Mjolnir>  Thu, 05 Oct 2017 22:43:48 -0400
+ -- Devin Matte <devinmatte@Mjolnir>  Sun, 08 Oct 2017 18:21:49 -0400
