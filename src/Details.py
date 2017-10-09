@@ -28,9 +28,11 @@ class Details:
                 "orientation": self.details['orientation'],
                 "dir": self.details['dir']
             }
+
             if self.details['related_applications_check'].lower() == 'y':
                 manifest["related_applications"] = self.details['related_applications']
                 manifest["prefer_related_applications"] = self.details['prefer_related_applications']
+
             if self.details['icons_check'].lower() == 'y':
                 manifest["icons"] = self.details['icons']
 
@@ -39,9 +41,12 @@ class Details:
 
         if self.args.package:
             package = {
-                "name": self.details['name'],
-                "description": self.details['description']
+                "name": self.details['name']
             }
+
+            if 'description' in self.details and len(self.details['description']) > 0:
+                package['description'] = self.details['description']
+
             if 'safe_name' in self.details:
                 package['name'] = self.details['safe_name']
 
@@ -66,6 +71,10 @@ class Details:
         if self.args.manifest or self.args.package:
             self.name()
             self.description()
+        if self.args.package:
+            self.keywords()
+            self.issue_tracker_url()
+            self.bug_report_email()
         if self.args.manifest:
             self.short_name()
             self.app_colors('theme_color')
@@ -77,10 +86,7 @@ class Details:
             self.orientation()
             self.RelatedApplication(self.details, self.args)
             self.Icon(self.details, self.args)
-        if self.args.package:
-            self.keywords()
-            self.issue_tracker_url()
-            self.bug_report_email()
+
         return self
 
     def short_name(self):
