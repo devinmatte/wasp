@@ -111,3 +111,9 @@ ENV/
 /debian/wasp.debhelper.log
 /debian/wasp/
 /debian/wasp/*
+/debian/wasp.postinst.debhelper
+/debian/wasp.prerm.debhelper
+
+# byproducts
+/manifest.json
+/package.json
