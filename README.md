@@ -1,6 +1,10 @@
+<div align="center">
+
 wasp
 ======
 
+[![Current Release](https://github-basic-badges.herokuapp.com/release/devinmatte/wasp.svg)](https://github.com/devinmatte/wasp/releases)
+[![Open Issues](https://github-basic-badges.herokuapp.com/issues/devinmatte/wasp.svg)](https://github.com/devinmatte/wasp/issues)
 [![Code Triagers Badge](https://www.codetriage.com/devinmatte/wasp/badges/users.svg)](https://www.codetriage.com/devinmatte/wasp)
 [![first-timers-only](http://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 
@@ -8,6 +12,8 @@ wasp generates and creates basic resources for a modern web app.
 Initializes a project with a manifest, package, and helps you tag versions effectively.
 
 Named wasp from the idea that wasps invented paper long before the first human thought to put his thoughts down on a sheet of papyrus.
+
+</div>
 
 Manifest
 --------
