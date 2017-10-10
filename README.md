@@ -1,10 +1,12 @@
 <div align="center">
 
+![wasp](wasp.png)
+
 wasp
 ======
 
 [![Current Release](https://github-basic-badges.herokuapp.com/release/devinmatte/wasp.svg)](https://github.com/devinmatte/wasp/releases)
-[![Open Issues](https://github-basic-badges.herokuapp.com/issues/devinmatte/wasp.svg)](https://github.com/devinmatte/wasp/issues)
+[![Open Issues](https://github-basic-badges.herokuapp.com/issues/devinmatte/wasp.svg?color=green)](https://github.com/devinmatte/wasp/issues)
 
 [![Code Triagers Badge](https://www.codetriage.com/devinmatte/wasp/badges/users.svg)](https://www.codetriage.com/devinmatte/wasp)
 [![first-timers-only](http://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
@@ -56,5 +58,3 @@ Design
 
 Right now there's no format design pattern in use. The current goal is to get a functioning tool.
 I would like to follow a formally defined design pattern, but until I determine one, this is the current design.
-
-![UML Diagram](diagram.png)
