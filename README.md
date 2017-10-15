@@ -59,7 +59,7 @@ Testing
 -----
 To test without building:
 
-First, comment out `sys.path.append('/usr/lib/wasp/')` in wasp, Details.py, and Utilities.py.
+First, comment out `sys.path.append('/usr/lib/wasp/')` in _wasp_, _Details.py_, and _Utilities.py_.
 
 Then change the following in the three files (not all files have all three.):
 ```
@@ -77,7 +77,7 @@ to
 ```
 
 
-**Make sure to undo all these changes before making a commit.**
+__Make sure to undo all these changes before making a commit.__
 
 Design
 ------
