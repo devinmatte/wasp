@@ -72,6 +72,7 @@ from src.Utilities import Utilities
 from src.Colors import Colors
 ```
 respectively.
+
 Please undo all these changes before making a commit or pull request.
 
 Design
