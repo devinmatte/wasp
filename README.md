@@ -59,21 +59,19 @@ Testing without building
 -----
 First, comment out `sys.path.append('/usr/lib/wasp/')` in _wasp_, _Details.py_, and _Utilities.py_.
 
-Then change the following in the three files (not all files have all three.):
+Then change the following in the three files (not all files have all three):
 ```
-1    from Details import Details
-
-2    from Utilities import Utilities
-3    from Colors import Colors
+from Details import Details
+from Utilities import Utilities
+from Colors import Colors
 ```
 to
 ```
-1    from src.Details import Details
-
-2    from src.Utilities import Utilities
-3    from src.Colors import Colors
+from src.Details import Details
+from src.Utilities import Utilities
+from src.Colors import Colors
 ```
-
+respectively.
 Please undo all these changes before making a commit or pull request.
 
 Design
