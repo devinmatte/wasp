@@ -55,10 +55,8 @@ To Build, run:
 debuild -us -uc
 ```
 
-Testing
+Testing without building
 -----
-To test without building:
-
 First, comment out `sys.path.append('/usr/lib/wasp/')` in _wasp_, _Details.py_, and _Utilities.py_.
 
 Then change the following in the three files (not all files have all three.):
@@ -77,7 +75,7 @@ to
 ```
 
 
-__Make sure to undo all these changes before making a commit.__
+__Please undo all these changes before making a commit or pull request.__
 
 Design
 ------
