@@ -55,6 +55,26 @@ To Build, run:
 debuild -us -uc
 ```
 
+Testing without building
+-----
+First, comment out `sys.path.append('/usr/lib/wasp/')` in _wasp_, _Details.py_, and _Utilities.py_.
+
+Then change the following in the three files (not all files have all three):
+```
+from Details import Details
+from Utilities import Utilities
+from Colors import Colors
+```
+to
+```
+from src.Details import Details
+from src.Utilities import Utilities
+from src.Colors import Colors
+```
+respectively.
+
+Please undo all these changes before making a commit or pull request.
+
 Design
 ------
 
