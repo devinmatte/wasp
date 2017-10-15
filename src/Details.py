@@ -53,6 +53,9 @@ class Details:
             if 'keywords' in self.details:
                 package['keywords'] = self.details['keywords']
 
+            if "private" in self.details:
+                package['private'] = self.details['private']
+
             bugs = {}
             if 'issue_tracker_url' in self.details and len(self.details['issue_tracker_url']) > 0:
                 bugs['url'] = self.details['issue_tracker_url']
@@ -75,6 +78,7 @@ class Details:
             self.keywords()
             self.issue_tracker_url()
             self.bug_report_email()
+            self.private()
         if self.args.manifest:
             self.short_name()
             self.app_colors('theme_color')
@@ -102,6 +106,13 @@ class Details:
         keywords = input("Keywords " + str(Utilities.on(["P"], self.args)) + ":")
         if keywords != '':
             self.details['keywords'] = keywords.split(sep=' ')
+
+    def private(self):
+        """ Prompt user for making repository private, public by default"""
+        private = input("Do you want to make this repository private? " + str(
+                    Utilities.on(["P"], self.args)) + " (y/" + Colors.OKBLUE + "n" + Colors.ENDC + "): ")
+        if private.lower() == 'y':
+            self.details['private'] = True
 
     def app_colors(self, color_type):
         """ Prompt user for theme/background color, ensure valid hex value entered. Default for both is white. """
