@@ -74,8 +74,7 @@ to
 3    from src.Colors import Colors
 ```
 
-
-__Please undo all these changes before making a commit or pull request.__
+Please undo all these changes before making a commit or pull request.
 
 Design
 ------
