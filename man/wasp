@@ -1,0 +1,30 @@
+.\" Manpage for wasp.
+.\" For formatting referance, see the manpage for mdoc (man mdoc) 
+.Dd October 27, 2017
+.\" .Os with no arguements defaults to BSD? Not sure what to give for arguements.
+.Os
+.\" Need to ask Devin about the Dt tag
+.Dt WASP
+.Sh NAME
+.Nm wasp
+.\" Not sure about the name description.
+.Nd generate basic web app resources
+.Sh SYNOPSIS
+.Nm wasp
+.Op Fl mp
+.Sh DESCRIPTION
+.\" wasp file in repo has "and tags versions". typo?
+wasp generates and creates basic resources for modern web apps. Initialises a project with a manifest, package, and tag versions effectively.
+.Sh OPTIONS
+.Fl m, -manifest
+Generate a manifest.json for your project
+
+.Fl p, -package
+Generate a package.json for your project
+.\"following lines are commented out in wasp, uncomment when implemented.
+
+.\" .Fl c, -composer
+.\" Generate a composer.json for your project
+
+.\" .Fl b, -bower
+.\" Generate a bower.json for your project
