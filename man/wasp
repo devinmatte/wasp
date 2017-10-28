@@ -2,29 +2,27 @@
 .\" For formatting referance, see the manpage for mdoc (man mdoc) 
 .Dd October 27, 2017
 .\" .Os with no arguements defaults to BSD? Not sure what to give for arguements.
-.Os
-.\" Need to ask Devin about the Dt tag
-.Dt WASP
+.Os\"[OPERATING_SYSTEM] [version/release]
+.Dt WASP \"[section number] [architecture/volume]
 .Sh NAME
 .Nm wasp
-.\" Not sure about the name description.
 .Nd generate basic web app resources
 .Sh SYNOPSIS
 .Nm wasp
-.Op Fl mp
+init | update | tag
+.Op Fl mp\"cb
 .Sh DESCRIPTION
-.\" wasp file in repo has "and tags versions". typo?
 wasp generates and creates basic resources for modern web apps. Initialises a project with a manifest, package, and tag versions effectively.
 .Sh OPTIONS
 .Fl m, -manifest
 Generate a manifest.json for your project
-
+.sp
 .Fl p, -package
 Generate a package.json for your project
 .\"following lines are commented out in wasp, uncomment when implemented.
-
+.\" .sp
 .\" .Fl c, -composer
 .\" Generate a composer.json for your project
-
+.\" .sp
 .\" .Fl b, -bower
 .\" Generate a bower.json for your project
