@@ -1,7 +1,7 @@
 .\" Manpage for wasp.
-.\" For formatting referance, see the manpage for mdoc (man mdoc) 
+.\" For formatting reference, see the manpage for mdoc (man mdoc) 
 .Dd October 27, 2017
-.\" .Os with no arguements defaults to BSD? Not sure what to give for arguements.
+.\" .Os with no arguments defaults to BSD? Not sure what to give for arguments.
 .Os\"[OPERATING_SYSTEM] [version/release]
 .Dt WASP \"[section number] [architecture/volume]
 .Sh NAME
