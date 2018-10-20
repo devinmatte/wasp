@@ -1,6 +1,7 @@
 import json
 import os
 from urllib.parse import urlparse
+import re
 
 import sys
 
@@ -66,6 +67,9 @@ class Details:
             if len(bugs) > 0:
                 package['bugs'] = bugs
 
+            if 'license' in self.details:
+                package['license'] = self.details['license']
+
             with open('package.json', 'w') as fp:
                 json.dump(package, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
@@ -79,6 +83,7 @@ class Details:
             self.issue_tracker_url()
             self.bug_report_email()
             self.private()
+            self.license()
         if self.args.manifest:
             self.short_name()
             self.app_colors('theme_color')
@@ -150,6 +155,30 @@ class Details:
                 print("Please enter a valid email address")
                 self.bug_report_email()
 
+    def license(self):
+        """ Prompt user to select from a list of standard distribution licenses. """
+        with open('src/licenses.json') as infile: # This maybe should be in a different folder.
+            licenses = json.load(infile)
+        self.details['license'] = input(
+            "License " + str(
+            Utilities.on(["P"],self.args)) +" (" + Colors.OKBLUE + "\"MIT\"" + Colors.ENDC + "): ")
+        if self.details['license'].lower() == "l":
+            for license in licenses:
+                print('{} : {}'.format(license,licenses[license]))
+            self.license()
+        elif self.details['license'] not in licenses and self.details['license'] != "":
+            print('License not recognized. Maybe you meant one of these?')
+            first_word = re.split('\W',self.details['license'])[0]
+            similar = [match for match in licenses.keys() if first_word in match]
+            for s in similar:
+                print('{} : {}'.format(s,licenses[s]))
+            self.license()
+        elif self.details['license'] == "":
+            self.details['license'] = 'MIT'
+        else:
+            pass
+
+
     def start_url(self):
         """ Prompt user for URL that loads when application launched. Default is /. """
         self.details['start_url'] = input(
@@ -218,6 +247,7 @@ class Details:
             print(
                 "Please enter one of the options from https://developer.mozilla.org/en-US/docs/Web/Manifest#orientation")
             self.orientation()
+
 
     class Icon:
         """

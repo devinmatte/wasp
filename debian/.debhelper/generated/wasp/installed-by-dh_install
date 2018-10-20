@@ -1,0 +1,5 @@
+./wasp
+./src/Colors.py
+./src/Details.py
+./src/licenses.json
+./src/Utilities.py
