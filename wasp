@@ -5,7 +5,7 @@ import argparse
 import sys
 
 sys.path.append('/usr/lib/wasp/')
-from Details import Details
+from wasp.src.details import Details
 
 try:
     description = 'Generate and create basic resources for a modern web app. Initialize a project with a manifest, package, and tag versions effectively'
