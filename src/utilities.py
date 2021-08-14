@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append('/usr/lib/wasp/')
-from wasp.src.domain.colors import Colors
+from src.colors import Colors
 
 
 class Utilities:
@@ -22,9 +22,9 @@ class Utilities:
         return len(colour_input) == 3 or len(colour_input) == 6
 
     @staticmethod
-    def is_valid_lang_code(string):
+    def is_valid_language_code(language_code: str) -> bool:
         """Validates user-inputted lang code"""
-        valid_langs = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba",
+        valid_languages = ["ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba",
                        "eu", "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "zh-Hans",
                        "zh-Hant", "cv", "kw", "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee",
                        "fo", "fj", "fi", "fr", "ff", "gl", "gd", "gv", "ka", "de", "el", "kl", "gn", "gu", "ht", "ha",
@@ -43,14 +43,17 @@ class Utilities:
                        "es-hn", "es-mx", "es-ni", "es-pa", "es-pe", "es-pr", "es-py", "es-sv", "es-uy", "es-ve",
                        "fr-be", "fr-ca", "fr-ch", "fr-lu", "it-ch", "nl-be", "pt-br", "ro-md", "ru-md", "sb", "sv-fi",
                        "zh-cn", "zh-hk", "zh-sg", "zh-tw"]
-        if string in valid_langs:
+        if language_code in valid_languages:
             return True
         else:
             return False
 
     @staticmethod
     def on(options, args):
-        """ Inject colorized indicators ('M' and/or 'P') into input prompts, depending on whether user is creating package and/or manifest. """
+        """
+        Inject colorized indicators ('M' and/or 'P') into input prompts,
+        depending on whether user is creating package and/or manifest.
+        """
         return_options = "["
         for i, s in enumerate(options):
             if s == "M" and args.manifest:
