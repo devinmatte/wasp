@@ -5,8 +5,9 @@ from urllib.parse import urlparse
 import sys
 
 sys.path.append('/usr/lib/wasp/')
-from Utilities import Utilities
-from Colors import Colors
+
+from src.utilities import Utilities
+from src.colors import Colors
 
 
 class Details:
@@ -69,7 +70,7 @@ class Details:
             with open('package.json', 'w') as fp:
                 json.dump(package, fp, sort_keys=True, indent=4, separators=(',', ': '))
 
-    def set(self):
+    def set_prompt(self):
         """ Individual method calls prompting user to input specific fields for manifest and/or package. """
         if self.args.manifest or self.args.package:
             self.name()
@@ -163,7 +164,7 @@ class Details:
         self.details['lang'] = input(
             "Language " + str(
                 Utilities.on(["M"], self.args)) + " (" + Colors.OKBLUE + default_lang + Colors.ENDC + "): ")
-        if Utilities.is_valid_lang_code(str(self.details['lang'])):
+        if Utilities.is_valid_language_code(str(self.details['lang'])):
             self.details['lang'] = self.details['lang']
         elif self.details['lang'] == "":
             self.details['lang'] = default_lang
@@ -171,7 +172,7 @@ class Details:
             print("Please enter a valid language code")
             self.lang()
 
-    def dir(self):
+    def text_direction(self):
         """ Prompt user for primary text direction for 'name', 'short_name', and 'description' members. Default is 'auto'. """
         dir_val = input("Text Direction " + str(
             Utilities.on(["M"], self.args)) + " (" + Colors.OKBLUE + "auto" + Colors.ENDC + "): ")

@@ -1,5 +1,5 @@
 .\" Manpage for wasp.
-.\" For formatting reference, see the manpage for mdoc (man mdoc) 
+.\" For formatting reference, see the manpage for mdoc (man mdoc)
 .Dd October 27, 2017
 .\" .Os with no arguments defaults to BSD? Not sure what to give for arguments.
 .Os\"[OPERATING_SYSTEM] [version/release]

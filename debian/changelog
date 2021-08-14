@@ -5,8 +5,7 @@ wasp (1.0.6) UNRELEASED; urgency=low
   * Directory Location correct
   * Icons, related applications, validation and almost full manifest functionality
   * Refactor to remove unused prompts, and account for cleaner design
-  * Updated heavily to support package.json in a few forms. Basic working versio
-n for manifest.json 
-  * Updated Package to split into 4 seperate files to help properly manage class files
+  * Updated heavily to support package.json in a few forms. Basic working version for manifest.json
+  * Updated Package to split into 4 separate files to help properly manage class files
 
  -- Devin Matte <devinmatte@Mjolnir>  Sun, 08 Oct 2017 18:21:49 -0400
