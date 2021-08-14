@@ -1,4 +1,4 @@
-from wasp.src.domain.colors import Colors
+from src.colors import Colors
 import pytest
 
 
