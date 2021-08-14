@@ -5,8 +5,8 @@ from urllib.parse import urlparse
 import sys
 
 sys.path.append('/usr/lib/wasp/')
-from Utilities import Utilities
-from Colors import Colors
+from wasp.sys.utilities import Utilities
+from wasp.sys.domain.colors import Colors
 
 
 class Details:

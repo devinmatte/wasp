@@ -1,22 +1,25 @@
 import sys
 
 sys.path.append('/usr/lib/wasp/')
-from Colors import Colors
+from wasp.src.domain.colors import Colors
 
 
 class Utilities:
+    """
+    TODO: this should not be a class
+    """
     @staticmethod
-    def is_hex_color(string):
+    def is_hex_color(colour_input: str) -> bool:
         """
         Checks to see if string is a hex color
-        :param string: user input, checking for validity
+        :param colour_input: user input, checking for validity
         :return: True if string is 3 or 6 characters, or false otherwise
         """
         try:
-            int(string, 16)
+            int(colour_input, 16)
         except ValueError:
             return False
-        return len(string) == 3 or len(string) == 6
+        return len(colour_input) == 3 or len(colour_input) == 6
 
     @staticmethod
     def is_valid_lang_code(string):
